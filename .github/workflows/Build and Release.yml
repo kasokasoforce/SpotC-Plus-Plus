@@ -980,3 +980,11 @@ jobs:
       with:
         name: UpdatedScarletRepo
         path: ScarletRepo.json
+
+    - name: Upload IPA as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: SpotC++-IPA
+        path: |
+          ${{ env.patchedspotify }}
+          ${{ env.altpatchedspotify }}
