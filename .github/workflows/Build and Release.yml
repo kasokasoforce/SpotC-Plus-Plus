@@ -123,7 +123,7 @@ jobs:
     - name: Download and process Orion
       run: |
         # Download the Packages file from repo.chariz.com
-        curl -sSL https://repo.chariz.com/Packages -o Packages
+        curl -sSL -k https://repo.chariz.com/Packages -o Packages
     
         # Use awk to find entries for dev.theos.orion14, Architecture: iphoneos-arm, find the highest version
         # extract the version, filename, SHA256 Hash, and MD5 hash
@@ -138,7 +138,7 @@ jobs:
 
         echo "Downloading From: https://repo.chariz.com/$FILENAME"
         # Download the file using curl
-        curl -LJO "https://repo.chariz.com/$FILENAME"
+        curl -k -LJO "https://repo.chariz.com/$FILENAME"
         downloaded_file=$(ls -t | head -n1)
         mv "$downloaded_file" "Build Components/"
         orion="Build Components/$downloaded_file"
@@ -193,7 +193,7 @@ jobs:
     - name: Download and process Sposify
       run: |
         # Download the Packages file
-        curl -sSL https://repo.dynastic.co/Packages -o Packages
+        curl -sSL -k https://repo.dynastic.co/Packages -o Packages
     
         # Use awk to find entries for com.spos, Architecture: iphoneos-arm, find the highest version
         # extract the version, filename, SHA256 Hash, and MD5 hash
@@ -208,7 +208,7 @@ jobs:
 
         echo "Downloading From: https://repo.dynastic.co/$FILENAME"
         # Download the file using curl
-        curl -LJO "https://repo.dynastic.co/$FILENAME"
+        curl -k -LJO "https://repo.dynastic.co/$FILENAME"
         downloaded_file=$(ls -t | head -n1)
         mv "$downloaded_file" "Build Components/"
         sposify="Build Components/$downloaded_file"
@@ -263,7 +263,7 @@ jobs:
     - name: Download and process SposifyFix
       run: |
         # Download the Packages file
-        curl -sSL https://level3tjg.me/repo/Packages -o Packages
+        curl -sSL -k https://level3tjg.me/repo/Packages -o Packages
     
         # Use awk to find entries for dev.theos.orion14, Architecture: iphoneos-arm, find the highest version
         # extract the version, filename, SHA256 Hash, and MD5 hash
@@ -278,7 +278,7 @@ jobs:
 
         echo "Downloading From: https://level3tjg.me/repo/Packages/$FILENAME"
         # Download the file using curl
-        curl -LJO "https://level3tjg.me/repo/$FILENAME"
+        curl -k -LJO "https://level3tjg.me/repo/$FILENAME"
         downloaded_file=$(ls -t | head -n1)
         mv "$downloaded_file" "Build Components/"
         sposifyfix="Build Components/$downloaded_file"
@@ -332,10 +332,10 @@ jobs:
     - name: Download EeveeSpotify .deb file from releases
       if: ${{ github.event.inputs.USEACTIONSEEVEE == 'false' }}
       run: |
-        eevee_asset=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ env.EEVEEREPO }}/releases/tags/${{ env.EEVEETAG }} | jq -r '.assets[] | select(.name | startswith("com.eevee.spotify") and endswith("iphoneos-arm.deb")).browser_download_url')
+        eevee_asset=$(curl -s -k -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ env.EEVEEREPO }}/releases/tags/${{ env.EEVEETAG }} | jq -r '.assets[] | select(.name | startswith("com.eevee.spotify") and endswith("iphoneos-arm.deb")).browser_download_url')
         echo "Downloading From: $eevee_asset"
         # Download the file using curl
-        curl -LJO "$eevee_asset"
+        curl -k -LJO "$eevee_asset"
         downloaded_file=$(ls -t | head -n1)
         mv "$downloaded_file" "Build Components/"
         echo "eevee-arm=Build Components/$downloaded_file" >> $GITHUB_ENV
@@ -384,7 +384,7 @@ jobs:
         protobuf_asset=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ env.EEVEEREPO }}/releases/tags/${{ env.EEVEETAG }} | jq -r '.assets[] | select(.name | startswith("org.swift.protobuf.swiftprotobuf") and endswith("iphoneos-arm.deb")).browser_download_url')
         echo "Downloading From: $protobuf_asset"
         # Download the file using curl
-        curl -LJO "$protobuf_asset"
+        curl -k -LJO "$protobuf_asset"
         downloaded_file=$(ls -t | head -n1)
         mv "$downloaded_file" "Build Components/"
         echo "swiftprotobuf=Build Components/$downloaded_file" >> $GITHUB_ENV
@@ -771,7 +771,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Download AltStore Repo.json
-      run: curl "https://raw.githubusercontent.com/SpotCompiled/SpotC-AltStore-Repo/main/AltStore%20Repo.json" -o ./AltStoreRepo.json
+      run: curl -k "https://raw.githubusercontent.com/SpotCompiled/SpotC-AltStore-Repo/main/AltStore%20Repo.json" -o ./AltStoreRepo.json
 
     - name: Calculate SpotC++ Filesize
       run: |
