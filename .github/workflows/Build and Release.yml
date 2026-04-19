@@ -100,8 +100,8 @@ jobs:
     - name: Download Spotify IPA
       run: |
         echo "Downloading From: ${{ github.event.inputs.SPOTURL }}"
-        # Download the file using curl
-        curl -LJO "${{ github.event.inputs.SPOTURL }}"
+        # Download the file using curl (SSL verification disabled temporarily)
+        curl -k -LJO "${{ github.event.inputs.SPOTURL }}"
         downloaded_file=$(ls -t | head -n1)
         mv "$downloaded_file" "Build Components/"
         echo "spotifypath=Build Components/$downloaded_file" >> $GITHUB_ENV
